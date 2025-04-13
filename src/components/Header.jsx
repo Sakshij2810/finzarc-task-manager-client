@@ -17,10 +17,9 @@ const Header = () => {
           Task Manager
         </Link>
         <nav className="flex items-center justify-between gap-5">
-          <p className="font-medium">Welcome, {user.username}</p>
-
           {user ? (
             <div className="flex items-center space-x-4">
+              <p className="font-medium">Welcome, {user.username}</p>
               <button
                 onClick={onLogout}
                 className="bg-[#55bfbf] text-black hover:bg-[#139796] px-4 py-2 rounded transition cursor-pointer"

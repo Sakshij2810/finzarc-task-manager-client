@@ -37,6 +37,12 @@ const TaskViewPage = () => {
   const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
+    if (!user) {
+      navigate("/login", { state: { from: `/tasks/${taskId}` } });
+    }
+  }, [user, navigate, taskId]);
+
+  useEffect(() => {
     const fetchTask = async () => {
       try {
         const token = localStorage.getItem("token");
