@@ -53,7 +53,6 @@ const Login = () => {
       await dispatch(login({ email, password })).unwrap();
     } catch (error) {
       // console.log(error);
-      toast.error("Login failed. Please try again.");
     }
   };
 
