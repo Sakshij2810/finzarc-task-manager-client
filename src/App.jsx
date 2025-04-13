@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import CreateTask from "./pages/CreateTask";
+import TaskViewPage from "./pages/TaskViewPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/create-task" element={<CreateTask />} />
+        <Route path="/tasks/:taskId" element={<TaskViewPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

@@ -15,6 +15,17 @@ const getTasks = async (token) => {
   }
 };
 
+const getSingleTask = async (taskId, token) => {
+  console.log(taskId, token);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await API.get(`/tasks/${taskId}`, config);
+  return response.data;
+};
+
 const createTask = async (taskData, token) => {
   const config = {
     headers: {
@@ -47,6 +58,7 @@ const deleteTask = async (taskId, token) => {
 
 const tasksService = {
   getTasks,
+  getSingleTask,
   createTask,
   updateTask,
   deleteTask,

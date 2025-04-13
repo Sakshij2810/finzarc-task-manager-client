@@ -4,11 +4,14 @@ import { deleteTask, updateTask } from "../features/tasks/tasksSlice";
 import { format } from "date-fns";
 import TaskForm from "./TaskForm.jsx";
 import toast from "react-hot-toast";
-import { FaRegEdit } from "react-icons/fa";
+import { FaRegEdit, FaCopy, FaShare, FaEye } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const TaskItem = ({ task }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [isEditing, setIsEditing] = useState(false);
   const [completed, setCompleted] = useState(task.completed);
 
@@ -25,6 +28,39 @@ const TaskItem = ({ task }) => {
       dispatch(deleteTask(task._id));
       toast.success("Task Deleted Successfully");
     }
+  };
+
+  const handleShareTask = () => {
+    const shareableLink = `${window.location.origin}/tasks/${task._id}`;
+    navigator.clipboard
+      .writeText(shareableLink)
+      .then(() => {
+        toast.success("Task link copied to clipboard!");
+      })
+      .catch((err) => {
+        toast.error("Failed to copy link: " + err.message);
+      });
+  };
+
+  const handleCopyContent = () => {
+    const contentToCopy = `${task.title}\n\n${task.description || ""}`.trim();
+    if (!contentToCopy) {
+      toast.error("No content to copy");
+      return;
+    }
+
+    navigator.clipboard
+      .writeText(contentToCopy)
+      .then(() => {
+        toast.success("Task content copied to clipboard!");
+      })
+      .catch((err) => {
+        toast.error("Failed to copy content: " + err.message);
+      });
+  };
+
+  const handleViewTask = () => {
+    navigate(`/tasks/${task._id}`);
   };
 
   return (
@@ -59,15 +95,41 @@ const TaskItem = ({ task }) => {
             )}
           </div>
         </div>
-        <div className="flex space-x-5">
+        <div className="flex space-x-3 items-center">
+          <button
+            onClick={handleViewTask}
+            className="text-[#17b5b4] hover:text-[#0f8a89] transition-colors cursor-pointer"
+            title="View Task"
+          >
+            <FaEye size={18} />
+          </button>
+          <button
+            onClick={handleCopyContent}
+            className="text-[#17b5b4] hover:text-[#0f8a89] transition-colors ml-2 cursor-pointer"
+            title="Copy Content"
+          >
+            <FaCopy size={18} />
+          </button>
+          <button
+            onClick={handleShareTask}
+            className="text-[#17b5b4] hover:text-[#0f8a89] transition-colors ml-2 cursor-pointer"
+            title="Share Task"
+          >
+            <FaShare size={18} />
+          </button>
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="text-2xl cursor-pointer"
+            className="text-[#17b5b4] hover:text-[#0f8a89] transition-colors ml-2 cursor-pointer"
+            title="Edit Task"
           >
-            <FaRegEdit />
+            <FaRegEdit size={18} />
           </button>
-          <button onClick={handleDelete} className="text-2xl cursor-pointer">
-            <MdDeleteOutline />
+          <button
+            onClick={handleDelete}
+            className="text-[#c72e2e] hover:text-red-700 transition-colors ml-2 cursor-pointer"
+            title="Delete Task"
+          >
+            <MdDeleteOutline size={20} />
           </button>
         </div>
       </div>
